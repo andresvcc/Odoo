@@ -1,32 +1,50 @@
 const express = require('express');
 const app = express();
-const Odoo = require('odoo-xmlrpc');
+// const Odoo = require('odoo-xmlrpc');
 const port = 3000
 
+var Odoo = require('node-odoo');
+ 
 var odoo = new Odoo({
-    url: 'http://localhost',
-    port: '8069',
-    db: 'test',
-    username: 'andres',
-    password: '1966'
+  host: 'localhost',
+  port: 8069,
+  database: 'test',
+  username: 'demo',
+  password: '1966'
 });
-
-
+ 
+// Connect to Odoo
 odoo.connect(function (err) {
+  if (err) { return console.log(err); }
+ 
+  // Get a partner
+  odoo.get('res.partner', 4, function (err, partner) {
     if (err) { return console.log(err); }
-    console.log('Connected to Odoo server.');
-    var inParams = [];
-    inParams.push([['is_company', '=', true],['customer', '=', true]]);
-    var params = [];
-    params.push(inParams);
-    odoo.execute_kw('res.partner', 'search_count', params, function (err, value) {
-        if (err) { return console.log(err); }
-        console.log('Result: ', value);
-    });
+ 
+     console.log('Partner', partner);
+  });
 });
 
 
-app.get('/', (req, res) => res.send('Hello World!'))
+
+app.get('/', (req, res) => {
+    var all = []
+
+    var params = {
+        fields: [ 'name', 'list_price'],
+        limit: 5,
+        offset: 0,  
+      }; //params
+
+
+    odoo.get('product.product', params, function (err, partner) {
+        if (err) { return console.log(err); }
+        all = partner
+        console.log(partner)
+    });
+
+    res.send({all, info:'res.user'})
+})
 
 
 app.listen(port, () => console.log(`Example app listening on port port!`))
