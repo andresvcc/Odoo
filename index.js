@@ -11,6 +11,7 @@ var odoo = new Odoo({
     password: '1966'
 });
 
+
 odoo.connect(function (err) {
     if (err) { return console.log(err); }
     console.log('Connected to Odoo server.');
