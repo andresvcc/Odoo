@@ -29,7 +29,7 @@ odoo.connect(function (err) {
   
       console.log('Partner', partner);
     });
-  });
+});
 
 const searchOdoo = (data) => new Promise((resolve) => {
     const model = data.model || '';
@@ -75,10 +75,10 @@ const createOdoo = (data) => new Promise((resolve) => {
     const params = data.params || '';
     // Connect to Odoo
 
-        odoo.create(model, params, function (err, obj) {
-            if (err) { return resolve({err})}
-            resolve(obj)
-        });
+    odoo.create(model, params, function (err, obj) {
+        if (err) { return resolve({err})}
+        resolve(obj)
+    });
 
 });
 
