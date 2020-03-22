@@ -141,8 +141,6 @@ Odoo.prototype._request = function (path, params, callback) {
 
   client.request('call', params, function (e, err, res) {
 
-  
-
     if (err) {
       // console.log({e, err, res})
       return callback(err, null);
